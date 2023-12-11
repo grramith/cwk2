@@ -126,4 +126,3 @@ if (!readData(inputFile, data, &record_count)) {
 
     return 0;
 }
-
