@@ -42,6 +42,7 @@ void importData(const char *filename, FITNESS_DATA *data, int *record_count) {
 
     if (FitnessDataPointer == NULL) {
         printf("Error opening file %s\n", filename);
+        printf("Error: Could not find or open the file.\n");
         return;
     }
     printf("File successfully loaded.\n");
@@ -56,7 +57,7 @@ void importData(const char *filename, FITNESS_DATA *data, int *record_count) {
         (*record_count)++;
     }
 
-    // Close the file
+    // Closing the file
     fclose(FitnessDataPointer);
 }
 
@@ -82,8 +83,8 @@ void displayMinStepsTimeSlot(const FITNESS_DATA *data, int record_count) {
         }
     }
 
-    printf("Fewest steps: %s %s %d\n", 
-           data[min_index].date, data[min_index].time, data[min_index].steps);
+    printf("Fewest steps: %s %s\n", 
+           data[min_index].date, data[min_index].time);
 }
 
 void displayMaxStepsTimeSlot(const FITNESS_DATA *data, int record_count) {
@@ -103,8 +104,8 @@ void displayMaxStepsTimeSlot(const FITNESS_DATA *data, int record_count) {
         }
     }
 
-    printf("Largest steps: %s %s %d\n", 
-           data[max_index].date, data[max_index].time, data[max_index].steps);
+    printf("Largest steps: %s %s\n", 
+           data[max_index].date, data[max_index].time);
 }
 
 double calculateMeanSteps(const FITNESS_DATA *data, int record_count) {
@@ -135,6 +136,7 @@ void findLongestAbove500Period(const FITNESS_DATA *data, int record_count) {
     int currentLength = 0;
 
     int longestStartIndex = 0;
+    int longestEndIndex = 0;  // New variable to store the end index
     int longestLength = 0;
 
     for (int i = 0; i < record_count; i++) {
@@ -142,13 +144,14 @@ void findLongestAbove500Period(const FITNESS_DATA *data, int record_count) {
             // If the current sequence is continuous, increment the length
             currentLength++;
 
-            // Update the longest sequence if the current one is longer
+            // Updating the longest sequence if the present one is longer
             if (currentLength > longestLength) {
                 longestLength = currentLength;
                 longestStartIndex = currentStartIndex;
+                longestEndIndex = i;  // Update the end index
             }
         } else {
-            // If the current sequence is interrupted, reset the start index and length
+            // If the present sequence is interrupted, reset the start index and length
             currentStartIndex = i + 1;
             currentLength = 0;
         }
@@ -157,8 +160,10 @@ void findLongestAbove500Period(const FITNESS_DATA *data, int record_count) {
     if (longestLength == 0) {
         printf("No continuous period above 500 steps found.\n");
     } else {
-        printf("Longest period start: %s %s and spans %d records.\n",
-               data[longestStartIndex].date, data[longestStartIndex].time, longestLength);
+        printf("Longest period start: %s %s\n",
+               data[longestStartIndex].date, data[longestStartIndex].time);
+        printf("Longest period end: %s %s\n",
+               data[longestEndIndex].date, data[longestEndIndex].time);
     }
 }
 
