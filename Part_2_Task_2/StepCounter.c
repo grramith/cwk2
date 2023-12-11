@@ -36,14 +36,13 @@ void tokeniseRecord(const char *input, const char *delimiter,
     free(inputCopy);
 }
 
-void importData(const char *filename, FITNESS_DATA *data, int *record_count) {
+int importData(const char *filename, FITNESS_DATA *data, int *record_count) {
     FILE *FitnessDataPointer;
     FitnessDataPointer = fopen(filename, "r");
 
     if (FitnessDataPointer == NULL) {
-        printf("Error opening file %s\n", filename);
         printf("Error: Could not find or open the file.\n");
-        return;
+        return 1;  // Return 1 to indicate an error
     }
     printf("File successfully loaded.\n");
     *record_count = 0;
@@ -59,6 +58,9 @@ void importData(const char *filename, FITNESS_DATA *data, int *record_count) {
 
     // Closing the file
     fclose(FitnessDataPointer);
+
+    // Return 0 to indicate success
+    return 0;
 }
 
 int getTotalRecords(const FITNESS_DATA *data, int record_count) {
@@ -193,10 +195,12 @@ int main() {
 
         // Perform actions based on user choice
         switch (choice) {
-            case 'A':
+                case 'A':
                 printf("Enter the filename: ");
                 scanf("%s", filename);
-                importData(filename, FitnessData, &record_count);
+                if (importData(filename, FitnessData, &record_count) == 1) {
+                    return 1;  // Exit the program due to an error
+                }
                 break;
 
             case 'B':

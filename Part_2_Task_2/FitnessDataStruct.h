@@ -16,7 +16,7 @@ typedef struct {
 void tokeniseRecord(const char *input, const char *delimiter, char *date, char *time, char *steps);
 
 // Imports data from a CSV file and populates the FITNESS_DATA array
-void importData(const char *filename, FITNESS_DATA *data, int *record_count);
+int importData(const char *filename, FITNESS_DATA *data, int *record_count);
 
 // Returns the total number of records in the FITNESS_DATA array
 int getTotalRecords(const FITNESS_DATA *data, int record_count);
