@@ -123,7 +123,7 @@ double calculateMeanSteps(const FITNESS_DATA *data, int record_count) {
     }
 
     int mean_steps = (double)total_steps / record_count;
-    int rounded_steps = (int)(mean_steps+0.5);
+    int rounded_steps = (mean_steps+0.5);
     printf("Mean step count: %d\n", rounded_steps);
     return 0;
     }
