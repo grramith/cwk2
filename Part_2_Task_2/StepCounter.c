@@ -41,6 +41,7 @@ int importData(const char *filename, FITNESS_DATA *data, int *record_count) {
     FitnessDataPointer = fopen(filename, "r");
 
     if (FitnessDataPointer == NULL) {
+
         printf("Error: Could not find or open the file.\n");
         return 1;  // Return 1 to indicate an error
     }
